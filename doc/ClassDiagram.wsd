@@ -1,0 +1,63 @@
+@startuml
+
+
+class SocketAddress
+{
+   - m_ip_addr : uint32
+   - m_port : uint16
+
+   + SocketAddress(uint32 ipAddr, uint16 port)
+}
+
+class ITcpStream
+{
+   + connect(SocketAddress address): bool
+   + disconnect(): bool
+   + receive(uint8_t* buffer, const size_t buffer_length): int 
+   + send(const uint8_t* buffer, const size_t bytes_to_send): int
+}
+
+class ITcpListener
+{
+   + bind(SocketAddress address): bool
+   + listen(): bool
+   + accept(): shared_ptr<ITcpStream>
+   + disconnect(): bool
+}
+
+class TcpStream
+{
+   - m_mutex : std::mutex
+   - m_fd : int
+   - m_address : SocketAddress
+
+   + connect(SocketAddress address): bool
+   + disconnect(): bool
+   + receive(uint8_t* buffer, const size_t buffer_length): int 
+   + send(const uint8_t* buffer, const size_t bytes_to_send): int
+}
+
+class TcpListener
+{
+   - m_mutex : std::mutex
+   - m_fd : int
+   - m_address : SocketAddress
+
+   + TcpListener()
+   + bind(SocketAddress address): bool
+   + listen(): bool
+   + accept(): shared_ptr<ITcpStream>
+   + disconnect(): bool
+}
+
+ITcpStream -> SocketAddress
+
+ITcpListener -> SocketAddress
+
+TcpStream --|> ITcpStream
+
+TcpListener --|> ITcpListener
+TcpListener --> TcpStream
+
+
+@enduml
