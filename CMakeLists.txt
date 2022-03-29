@@ -13,9 +13,6 @@ option(BUILD_CROSS_PLATFORM_SOCKETS_UNIT_TESTS "Build CrossPlatformSockets unit 
 # Add src dir
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/src)
 
-# Create library
-add_library(CrossPlatformSockets ${CROSS_PLATFORM_SOCKETS_SOURCE_FILES} ${CROSS_PLATFORM_SOCKETS_HEADER_FILES})
-
 # Add unit tests if specified
 if (BUILD_CROSS_PLATFORM_SOCKETS_UNIT_TESTS)
    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/tests)

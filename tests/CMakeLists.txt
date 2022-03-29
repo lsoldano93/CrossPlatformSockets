@@ -1,5 +1,6 @@
 message("\n--> Building CrossPlatformSockets_tests\n")
 project(CrossPlatformSockets_tests)
+set(CROSS_PLATFORM_SOCKETS_TESTS_TARGET_NAME "CrossPlatformSockets_tests")
 
 # Pull in GTest
 # For more, see: https://github.com/google/googletest/blob/main/googletest/README.md
@@ -16,14 +17,20 @@ FetchContent_MakeAvailable(googletest)
 # Enable testing and setup tests
 enable_testing()
 
-include_directories(${CROSS_PLATFORM_SOCKETS_INCLUDE_DIRS})
+add_executable(${CROSS_PLATFORM_SOCKETS_TESTS_TARGET_NAME}
 
-add_executable(CrossPlatformSockets_tests
+               ${CROSS_PLATFORM_SOCKETS_SOURCE_FILES}
+               ${CROSS_PLATFORM_SOCKETS_HEADER_FILES}
 
-   ${CMAKE_CURRENT_LIST_DIR}/Test_TcpStream.cpp
+               ${CMAKE_CURRENT_LIST_DIR}/Test_TcpStream.cpp
 )
 
-target_link_libraries(CrossPlatformSockets_tests gtest gtest_main)
-target_link_libraries(CrossPlatformSockets_tests CrossPlatformSockets)
+target_link_libraries(${CROSS_PLATFORM_SOCKETS_TESTS_TARGET_NAME} 
+                      gtest 
+                      gtest_main)
 
-add_test(NAME CrossPlatformSockets_utests COMMAND CrossPlatformSockets_tests)
+target_include_directories(${CROSS_PLATFORM_SOCKETS_TESTS_TARGET_NAME} 
+                           PRIVATE ${CROSS_PLATFORM_SOCKETS_INCLUDE_DIRS})
+
+add_test(NAME CrossPlatformSockets_utests 
+         COMMAND ${CROSS_PLATFORM_SOCKETS_TESTS_TARGET_NAME})
