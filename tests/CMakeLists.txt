@@ -1,6 +1,3 @@
-# Unit tests will require C++20
-set(CMAKE_CXX_STANDARD 20)
-
 message("\n--> Building CrossPlatformSockets_tests\n")
 project(CrossPlatformSockets_tests)
 
@@ -16,16 +13,17 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+# Enable testing and setup tests
 enable_testing()
 
-add_executable(
-   CrossPlatformSockets_tests
-   Test_TcpStream.cpp
+include_directories(${CROSS_PLATFORM_SOCKETS_INCLUDE_DIRS})
+
+add_executable(CrossPlatformSockets_tests
+
+   ${CMAKE_CURRENT_LIST_DIR}/Test_TcpStream.cpp
 )
-target_link_libraries(
-   CrossPlatformSockets_tests
-   gtest_main
-)
-add_test(
-   CrossPlatformSockets_tests CrossPlatformSockets_tests
-)
+
+target_link_libraries(CrossPlatformSockets_tests gtest gtest_main)
+target_link_libraries(CrossPlatformSockets_tests CrossPlatformSockets)
+
+add_test(NAME CrossPlatformSockets_utests COMMAND CrossPlatformSockets_tests)
