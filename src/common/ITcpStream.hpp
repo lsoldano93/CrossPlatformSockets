@@ -3,6 +3,8 @@
 
 #include "SocketAddress.hpp"
 
+namespace CrossPlatformSockets {
+
 class ITcpStream
 {
 public:
@@ -14,5 +16,7 @@ protected:
    virtual ~ITcpStream() = default;
 
 };
+
+} // namespace CrossPlatformSockets
 
 #endif // I_TCP_STREAM_H

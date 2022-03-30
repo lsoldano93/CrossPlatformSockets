@@ -1,12 +1,31 @@
 @startuml
 
-
-class SocketAddress
+class IpV4Address
 {
-   - m_ip_addr : uint32
+   - m_IpAddr: uint32
+
+   + IpV4Address(const uint32)
+   + IpV4Address(const std::string)
+   + get_addr(): uint32
+   + to_string() std::string
+}
+
+class IpV6Address
+{
+   - m_IpAddr: uint128
+
+   + IpV6Address(const uint128)
+   + IpV6Address(const std::string)
+   + get_addr(): uint32
+   + to_string() std::string
+}
+
+class SocketAddress<T>
+{
+   - m_ip_addr : T
    - m_port : uint16
 
-   + SocketAddress(uint32 ipAddr, uint16 port)
+   + SocketAddress(T ipAddr, uint16 port)
 }
 
 class ITcpStream
@@ -50,14 +69,32 @@ class TcpListener
    + disconnect(): bool
 }
 
+class ActiveTcpStream
+{
+
+}
+
+class ActiveTcpListener
+{
+
+}
+
 ITcpStream -> SocketAddress
 
 ITcpListener -> SocketAddress
 
 TcpStream --|> ITcpStream
+TcpStream --> IpV4Address
+TcpStream --> IpV6Address
 
 TcpListener --|> ITcpListener
 TcpListener --> TcpStream
+TcpListener --> IpV4Address
+TcpListener --> IpV6Address
 
+ActiveTcpStream o-- TcpStream
+
+ActiveTcpListener o-- TcpListener
+ActiveTcpListener o-- TcpStream
 
 @enduml

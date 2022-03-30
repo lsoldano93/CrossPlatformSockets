@@ -25,6 +25,18 @@ def stream_process_output(process):
       stdout.write(line.decode("utf-8")) # stdout does not use a new line like print
    return process_still_running
 
+def run_command(command):
+   """
+   Runs the provided command line argument list and streams all output, returns outcome
+   """
+   process = Popen(command, stdout=PIPE, stderr=STDOUT)
+
+   # Stream output from sub process while it's still alive
+   while stream_process_output(process):
+      sleep(0.1)
+
+   return process.poll()
+
 def exit_on_failure():
    """
    Function to call when this script fails, simply prints expected errors and ending strings
@@ -32,6 +44,7 @@ def exit_on_failure():
    print("xx Exiting CrossPlatformSockets BuildAndRunTests")
    print(f"{LOG_DELIMITER}\n")
    exit()
+
 
 # Start script
 print(f"\n{LOG_DELIMITER}")
@@ -69,18 +82,13 @@ cmake_command_arguments = ["cmake",
                            CROSS_PLATFORM_SOCKETS_PATH,
                            "-B",
                            CROSS_PLATFORM_SOCKETS_BUILD_PATH]
-process = Popen(cmake_command_arguments, stdout=PIPE, stderr=STDOUT)
-
-# Stream output from sub process while it's still alive
-while stream_process_output(process):
-   sleep(0.1)
+return_code = run_command(cmake_command_arguments)
 
 # Check results
 print(f"\n{LOG_DELIMITER}")
 print("** CrossPlatformSockets continuing...")
 print("-- Checking outcome of prior CMake attempt")
 
-return_code = process.poll()
 if return_code is None or 0 != return_code:
    print("--> CMake command failed!")
    exit_on_failure()
@@ -92,18 +100,13 @@ print("-- Building project...")
 print(f"{LOG_DELIMITER}\n")
 
 build_arguments = ["cmake", "--build", CROSS_PLATFORM_SOCKETS_BUILD_PATH]
-process = Popen(build_arguments, stdout=PIPE, stderr=STDOUT)
-
-# Stream output from sub process while it's still alive
-while stream_process_output(process):
-   sleep(0.1)
+return_code = run_command(build_arguments)
 
 # Check results
 print(f"\n{LOG_DELIMITER}")
 print("** CrossPlatformSockets continuing...")
 print("-- Checking outcome of build attempt")
 
-return_code = process.poll()
 if return_code is None or 0 != return_code:
    print("--> Build failed!")
    exit_on_failure()
@@ -114,8 +117,4 @@ print("--> Build succeeded!")
 print("-- Running unit tests...")
 print(f"{LOG_DELIMITER}\n")
 
-process = Popen([CROSS_PLATFORM_SOCKETS_TEST_EXE_PATH], stdout=PIPE, stderr=STDOUT)
-
-# Stream output from sub process while it's still alive
-while stream_process_output(process):
-   sleep(0.1)
+return_code = run_command([CROSS_PLATFORM_SOCKETS_TEST_EXE_PATH])

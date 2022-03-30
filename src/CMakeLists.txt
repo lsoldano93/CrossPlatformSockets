@@ -3,6 +3,7 @@ message("--> CrossPlatformSockets src CMakeLists.txt")
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/common)
 
 set(CROSS_PLATFORM_SOCKETS_SOURCE_FILES
+    ${CROSS_PLATFORM_SOCKETS_COMMON_SOURCE_FILES}
     
     CACHE INTERNAL "CROSS_PLATFORM_SOCKETS_SOURCE_FILES")
 
