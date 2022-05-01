@@ -2,38 +2,39 @@
 
 class IpV4Address
 {
-   - m_IpAddr: uint32
-
-   + IpV4Address(const uint32)
-   + IpV4Address(const std::string)
-   + get_addr(): uint32
+   + IpV4Address(std::string)
+   + IpV4Address(uint8, uint8, uint8, uint8)
    + to_string() std::string
+   + get_address() uint32_t
 }
 
 class IpV6Address
 {
-   - m_IpAddr: uint128
-
-   + IpV6Address(const uint128)
-   + IpV6Address(const std::string)
-   + get_addr(): uint32
+   + IpV6Address(std::string)
+   + IpV6Address(uint16, uint16, uint16, uint16, uint16, uint16, uint16, uint16)
    + to_string() std::string
 }
 
-class SocketAddress<T>
+class SocketAddress
 {
-   - m_ip_addr : T
+   - m_ip_addr : variant<IpV4Address, IpV6Address>
    - m_port : uint16
 
    + SocketAddress(T ipAddr, uint16 port)
+   + get_ip_addr(): const T&
+   + get_port: uint16
 }
 
 class ITcpStream
-{
+{ 
    + connect(SocketAddress address): bool
    + disconnect(): bool
    + receive(uint8_t* buffer, const size_t buffer_length): int 
    + send(const uint8_t* buffer, const size_t bytes_to_send): int
+   + get_address(): SocketAddress
+   + is_connected(): bool
+   + is_v4_socket(): bool
+   + is_v6_socket(): bool
 }
 
 class ITcpListener
@@ -42,6 +43,10 @@ class ITcpListener
    + listen(): bool
    + accept(): shared_ptr<ITcpStream>
    + disconnect(): bool
+   + get_address(): SocketAddress
+   + is_connected(): bool
+   + is_v4_socket(): bool
+   + is_v6_socket(): bool
 }
 
 class TcpStream
@@ -54,6 +59,10 @@ class TcpStream
    + disconnect(): bool
    + receive(uint8_t* buffer, const size_t buffer_length): int 
    + send(const uint8_t* buffer, const size_t bytes_to_send): int
+   + get_address(): SocketAddress
+   + is_connected(): bool
+   + is_v4_socket(): bool
+   + is_v6_socket(): bool
 }
 
 class TcpListener
@@ -67,6 +76,10 @@ class TcpListener
    + listen(): bool
    + accept(): shared_ptr<ITcpStream>
    + disconnect(): bool
+   + get_address(): SocketAddress
+   + is_connected(): bool
+   + is_v4_socket(): bool
+   + is_v6_socket(): bool
 }
 
 class ActiveTcpStream
@@ -79,18 +92,17 @@ class ActiveTcpListener
 
 }
 
-ITcpStream -> SocketAddress
+SocketAddress o-- IpV4Address
+SocketAddress o-- IpV6Address
 
-ITcpListener -> SocketAddress
+ITcpStream --> SocketAddress
+
+ITcpListener --> SocketAddress
 
 TcpStream --|> ITcpStream
-TcpStream --> IpV4Address
-TcpStream --> IpV6Address
 
 TcpListener --|> ITcpListener
 TcpListener --> TcpStream
-TcpListener --> IpV4Address
-TcpListener --> IpV6Address
 
 ActiveTcpStream o-- TcpStream
 

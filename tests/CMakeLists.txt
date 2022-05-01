@@ -22,11 +22,13 @@ add_executable(${CROSS_PLATFORM_SOCKETS_TESTS_TARGET_NAME}
                ${CROSS_PLATFORM_SOCKETS_SOURCE_FILES}
                ${CROSS_PLATFORM_SOCKETS_HEADER_FILES}
 
+               ${CMAKE_CURRENT_LIST_DIR}/Test_IpV4Address.cpp
                ${CMAKE_CURRENT_LIST_DIR}/Test_SocketAddress.cpp
                ${CMAKE_CURRENT_LIST_DIR}/Test_TcpStream.cpp
 )
 
 target_link_libraries(${CROSS_PLATFORM_SOCKETS_TESTS_TARGET_NAME} 
+                      ${CROSS_PLATFORM_SOCKETS_LIBS}
                       gtest 
                       gtest_main)
 

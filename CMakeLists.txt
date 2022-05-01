@@ -5,6 +5,7 @@ message("\n--> Building CrossPlatformSockets\n")
 project(CrossPlatformSockets)
 
 # Use C++20
+message("--> Setting standard to C++20")
 set(CMAKE_CXX_STANDARD 20)
 
 # Option to build unit tests
