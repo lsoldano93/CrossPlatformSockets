@@ -2,6 +2,7 @@
 
 #include "ITcpStream.hpp"
 
-TEST(TcpStream, ITcpStreamPureVirtual) {
+TEST(TcpStream, ITcpStreamPureVirtual) 
+{
    
 }
