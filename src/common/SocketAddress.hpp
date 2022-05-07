@@ -8,11 +8,12 @@
 #include <cstdint>
 #include <variant>
 
-namespace CrossPlatformSockets {
+namespace CrossPlatformSockets 
+{
 
 template <typename T>
-concept IpAddress = std::is_base_of<IpV4Address, std::remove_cvref_t<T>>::value || 
-                    std::is_base_of<IpV6Address, std::remove_cvref_t<T>>::value;
+concept IsIpAddress = std::is_base_of<IpV4Address, std::remove_cvref_t<T>>::value || 
+                      std::is_base_of<IpV6Address, std::remove_cvref_t<T>>::value;
 
 class SocketAddress
 {
@@ -20,7 +21,7 @@ public:
 
    SocketAddress() = delete;
 
-   template <typename T> requires IpAddress<T>
+   template <typename T> requires IsIpAddress<T>
    SocketAddress(T&& ip_address, const uint16_t port) noexcept;
 
    std::variant<IpV4Address, IpV6Address> get_ip_address() const noexcept;
@@ -40,7 +41,7 @@ private:
 * @param[in] ip_address: the ip address (V4 or V6) associated with this socket address
 * @param[in] port: the port associated with this socket address
 ***************************************************************************************************/
-template <typename T> requires IpAddress<T>
+template <typename T> requires IsIpAddress<T>
 SocketAddress::SocketAddress(T&& ip_address, const uint16_t port) noexcept :
    m_ip_address(std::forward<T>(ip_address)),
    m_port(port)   

@@ -23,7 +23,7 @@ namespace
 ***************************************************************************************************/
 std::optional<IpV4Address> IpV4Address::create(std::string&& address_string) noexcept 
 {
-   auto address = inet_addr(address_string.c_str());
+   const auto address = inet_addr(address_string.c_str());
    if (INADDR_NONE != address) 
    {
       return IpV4Address{ntohl(address), std::move(address_string)};
@@ -43,13 +43,13 @@ std::optional<IpV4Address> IpV4Address::create(std::string&& address_string) noe
 * @return Returns a valid IpV4 address object on success; a null object if a valid IpV4 string was
 *         not provided
 ***************************************************************************************************/
-std::optional<IpV4Address> IpV4Address::create(uint32_t host_address) noexcept 
+std::optional<IpV4Address> IpV4Address::create(const uint32_t host_address) noexcept 
 {
    char buffer[IP_ADDRESS_STRING_LENGTH];
-   uint32_t network_address = htonl(host_address);
+   const uint32_t network_address = htonl(host_address);
    if (nullptr != inet_ntop(AF_INET, &network_address, buffer, IP_ADDRESS_STRING_LENGTH))
    {
-      return IpV4Address(std::move(host_address), std::string(buffer));
+      return IpV4Address(host_address, std::string(buffer));
    }
    else
    {
@@ -70,10 +70,10 @@ std::optional<IpV4Address> IpV4Address::create(uint32_t host_address) noexcept
 * @return Returns a valid IpV4 address object on success; a null object if values did not form a 
 *         valid IpV4 address
 ***************************************************************************************************/
-std::optional<IpV4Address> IpV4Address::create(uint8_t&& first_octet, 
-                                               uint8_t&& second_octet, 
-                                               uint8_t&& third_octet, 
-                                               uint8_t&& fourth_octet) noexcept
+std::optional<IpV4Address> IpV4Address::create(const uint8_t first_octet, 
+                                               const uint8_t second_octet, 
+                                               const uint8_t third_octet, 
+                                               const uint8_t fourth_octet) noexcept
 {
    uint32_t host_address = first_octet;
    host_address = (host_address << 8) + second_octet;
@@ -88,7 +88,7 @@ std::optional<IpV4Address> IpV4Address::create(uint8_t&& first_octet,
 * @param[in] address: a host order representation of the address
 * @param[in] address_string: string representation of the address
 ***************************************************************************************************/
-IpV4Address::IpV4Address(uint32_t&& address, std::string&& address_string) noexcept :
+IpV4Address::IpV4Address(const uint32_t address, std::string&& address_string) noexcept :
    m_address(std::move(address)),
    m_address_string(std::move(address_string))
 {
@@ -101,7 +101,7 @@ IpV4Address::IpV4Address(uint32_t&& address, std::string&& address_string) noexc
 * 
 * @return Returns the address
 ***************************************************************************************************/
-const uint32_t& IpV4Address::get_address() const noexcept
+const uint32_t IpV4Address::get_address() const noexcept
 {
    return m_address;
 }

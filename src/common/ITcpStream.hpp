@@ -3,7 +3,8 @@
 
 #include "SocketAddress.hpp"
 
-namespace CrossPlatformSockets {
+namespace CrossPlatformSockets 
+{
 
 class ITcpStream
 {
