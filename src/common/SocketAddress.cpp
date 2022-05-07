@@ -4,34 +4,21 @@
 using namespace CrossPlatformSockets;
 
 /***********************************************************************************************//**
-* @brief Construct a new Socket Address
+* @brief Gets the ip address variant associated with this socket address
 * 
-* @param[in] ipAddr is the ip address that will be assigned to this SocketAddress
-* @param[in] port is the port that will be assigned to this SocketAddress
+* @return Returns ip address variant
 ***************************************************************************************************/
-SocketAddress::SocketAddress(const uint32_t ipAddr, const uint16_t port) :
-   m_ip_addr(ipAddr),
-   m_port(port)
+std::variant<IpV4Address, IpV6Address> SocketAddress::get_ip_address() const noexcept
 {
-
+   return m_ip_address;
 }
 
 /***********************************************************************************************//**
-* @brief Return the ip address of this SocketAddress
+* @brief Gets the port associated with this socket address
 * 
-* @return The current ip address
+* @return Returns the port
 ***************************************************************************************************/
-uint32_t SocketAddress::get_ip_addr() const
-{
-   return m_ip_addr;
-}
-
-/***********************************************************************************************//**
-* @brief Return the port of this SocketAddress
-* 
-* @return The current port
-***************************************************************************************************/
-uint16_t SocketAddress::get_port() const
+int16_t SocketAddress::get_port() const noexcept
 {
    return m_port;
 }
