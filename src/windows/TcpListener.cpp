@@ -11,7 +11,7 @@ using namespace CrossPlatformSockets;
 ***************************************************************************************************/
 bool TcpListener::bind(const SocketAddress& socket_address)
 {
-   return true;
+   return false;
 }
 
 /***********************************************************************************************//**
@@ -21,7 +21,7 @@ bool TcpListener::bind(const SocketAddress& socket_address)
 ***************************************************************************************************/
 bool TcpListener::is_bound() const noexcept
 {
-
+   return false;
 }
 
 /***********************************************************************************************//**
@@ -32,5 +32,5 @@ bool TcpListener::is_bound() const noexcept
 ***************************************************************************************************/
 std::optional<SocketAddress> TcpListener::get_address() const noexcept
 {
-
+   return std::nullopt;
 }

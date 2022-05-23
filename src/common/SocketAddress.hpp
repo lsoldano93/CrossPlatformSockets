@@ -19,18 +19,28 @@ class SocketAddress
 {
 public:
 
+   static std::optional<SocketAddress> createV4(std::string address_string,
+                                                const uint16_t port) noexcept;
+   static std::optional<SocketAddress> createV4(const uint32_t host_address,
+                                                const uint16_t port) noexcept;
+   static std::optional<SocketAddress> createV4(const uint8_t first_octet, 
+                                                const uint8_t second_octet, 
+                                                const uint8_t third_octet, 
+                                                const uint8_t fourth_octet,
+                                                const uint16_t port) noexcept;
+
    SocketAddress() = delete;
 
    template <typename T> requires IsIpAddress<T>
    SocketAddress(T&& ip_address, const uint16_t port) noexcept;
 
    std::variant<IpV4Address, IpV6Address> get_ip_address() const noexcept;
-   int16_t get_port() const noexcept;
+   uint16_t get_port() const noexcept;
 
 private:
 
    std::variant<IpV4Address, IpV6Address> m_ip_address;
-   int16_t m_port;
+   uint16_t m_port;
 
 };
 

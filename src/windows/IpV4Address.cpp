@@ -21,17 +21,15 @@ namespace
 * @return Returns a valid IpV4 address object on success; a null object if a valid IpV4 string was
 *         not provided
 ***************************************************************************************************/
-std::optional<IpV4Address> IpV4Address::create(std::string&& address_string) noexcept 
+std::optional<IpV4Address> IpV4Address::create(std::string address_string) noexcept 
 {
    const auto address = inet_addr(address_string.c_str());
    if (INADDR_NONE != address) 
    {
       return IpV4Address{ntohl(address), std::move(address_string)};
    }
-   else 
-   {
-      return std::nullopt;
-   }
+      
+   return std::nullopt;
 }
 
 /***********************************************************************************************//**
@@ -43,7 +41,7 @@ std::optional<IpV4Address> IpV4Address::create(std::string&& address_string) noe
 * @return Returns a valid IpV4 address object on success; a null object if a valid IpV4 string was
 *         not provided
 ***************************************************************************************************/
-std::optional<IpV4Address> IpV4Address::create(const uint32_t host_address) noexcept 
+std::optional<IpV4Address> IpV4Address::create(const uint32_t host_address) noexcept
 {
    char buffer[IP_ADDRESS_STRING_LENGTH];
    const uint32_t network_address = htonl(host_address);
@@ -51,10 +49,8 @@ std::optional<IpV4Address> IpV4Address::create(const uint32_t host_address) noex
    {
       return IpV4Address(host_address, std::string(buffer));
    }
-   else
-   {
-      return std::nullopt;
-   }
+      
+   return std::nullopt;
 }
 
 /***********************************************************************************************//**

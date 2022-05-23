@@ -15,7 +15,7 @@ public:
 
    IpV4Address() = delete;
 
-   static std::optional<IpV4Address> create(std::string&& address_string) noexcept;
+   static std::optional<IpV4Address> create(std::string address_string) noexcept;
    static std::optional<IpV4Address> create(const uint32_t host_address) noexcept;
    static std::optional<IpV4Address> create(const uint8_t first_octet, 
                                             const uint8_t second_octet, 
