@@ -38,8 +38,8 @@ std::optional<IpV4Address> IpV4Address::create(std::string address_string) noexc
 *
 * @param[in] host_address: host order address to use for address construction
 *
-* @return Returns a valid IpV4 address object on success; a null object if a valid IpV4 string was
-*         not provided
+* @return Returns a valid IpV4 address object on success; a null object if a valid IpV4 host order
+*         address was not provided
 ***************************************************************************************************/
 std::optional<IpV4Address> IpV4Address::create(const uint32_t host_address) noexcept
 {
