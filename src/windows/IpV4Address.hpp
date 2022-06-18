@@ -14,7 +14,10 @@ class IpV4Address
 public:
 
    IpV4Address() = delete;
+   virtual ~IpV4Address() = default;
 
+   // @TODO Create operator==
+   
    static std::optional<IpV4Address> create(std::string address_string) noexcept;
    static std::optional<IpV4Address> create(const uint32_t host_address) noexcept;
    static std::optional<IpV4Address> create(const uint8_t first_octet, 
@@ -22,7 +25,7 @@ public:
                                             const uint8_t third_octet, 
                                             const uint8_t fourth_octet) noexcept;
 
-   const uint32_t get_address() const noexcept;
+   uint32_t get_address() const noexcept;
    const std::string& to_string() const noexcept;
 
    friend std::ostream& operator<<(std::ostream& os, const IpV4Address& address)
@@ -35,8 +38,8 @@ private:
 
    IpV4Address(const uint32_t address, std::string&& address_string) noexcept;
 
-   const uint32_t m_address;
-   const std::string m_address_string;
+   uint32_t m_address;
+   std::string m_address_string;
 
 };
 

@@ -11,11 +11,10 @@ class IpV6Address
 {
 public:
 
+   IpV6Address() = delete;
+   virtual ~IpV6Address() = default;
+
    static std::optional<IpV6Address> create(std::string&& address_string) noexcept;
-
-private:
-
-   IpV6Address() = default;
 
 };
 

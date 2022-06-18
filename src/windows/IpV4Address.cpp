@@ -97,7 +97,7 @@ IpV4Address::IpV4Address(const uint32_t address, std::string&& address_string) n
 * 
 * @return Returns the address
 ***************************************************************************************************/
-const uint32_t IpV4Address::get_address() const noexcept
+uint32_t IpV4Address::get_address() const noexcept
 {
    return m_address;
 }

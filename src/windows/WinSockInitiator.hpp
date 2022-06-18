@@ -1,7 +1,12 @@
 #ifndef WIN_SOCK_INITIATOR_H
 #define WIN_SOCK_INITIATOR_H
 
-#include "winsock2.h"
+#pragma comment(lib, "Ws2_32.lib")
+
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <stdio.h>
+
 #include <stdexcept>
 #include <string>
 
